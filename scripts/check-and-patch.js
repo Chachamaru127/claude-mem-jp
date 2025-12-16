@@ -7,10 +7,11 @@
  * 必要に応じてパッチを適用します。
  *
  * @author Tachibana Shuuta
- * @version 1.1.0
+ * @version 1.1.1
  * @requires claude-mem@thedotmack プラグインがインストールされていること
  *
  * 変更履歴:
+ * - v1.1.1: pkillの対象をclaude-memのみに限定（他のMCPサーバーに影響を与えない）
  * - v1.1.0: 初回パッチ適用時のClaude Code再起動案内を追加
  *           MCPサーバープロセスの停止処理を追加
  */
@@ -190,17 +191,18 @@ async function main() {
     }
 
     // MCPサーバープロセスを停止（古いプロセスが日本語化前のコードを使用している問題を解決）
-    log('MCPサーバープロセスを停止中...');
+    // thedotmackのclaude-memのみを対象にし、他のMCPサーバーに影響を与えない
+    log('claude-mem MCPサーバープロセスを停止中...');
     try {
-      const pkillResult = runCommand('pkill', ['-f', 'mcp-server.cjs'], {
+      const pkillResult = runCommand('pkill', ['-f', 'thedotmack.*mcp-server.cjs'], {
         timeout: 5000
       });
       if (pkillResult.status === 0) {
-        log('MCPサーバープロセスを停止しました');
+        log('claude-mem MCPサーバープロセスを停止しました');
       }
     } catch (e) {
       // プロセスが存在しない場合は無視
-      log('MCPサーバープロセス停止: 対象プロセスなし（正常）');
+      log('claude-mem MCPサーバープロセス停止: 対象プロセスなし（正常）');
     }
 
     log('===== claude-mem 日本語化パッチ適用完了 =====');
