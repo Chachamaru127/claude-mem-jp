@@ -7,10 +7,11 @@
  * 必要に応じてパッチを適用します。
  *
  * @author Tachibana Shuuta
- * @version 1.1.1
+ * @version 1.2.0
  * @requires claude-mem@thedotmack プラグインがインストールされていること
  *
  * 変更履歴:
+ * - v1.2.0: パッチ適用時は常に再起動案内を表示（マーカーファイル判定を廃止）
  * - v1.1.1: pkillの対象をclaude-memのみに限定（他のMCPサーバーに影響を与えない）
  * - v1.1.0: 初回パッチ適用時のClaude Code再起動案内を追加
  *           MCPサーバープロセスの停止処理を追加
@@ -26,7 +27,6 @@ const PROMPTS_FILE = join(HOME, '.claude/plugins/marketplaces/thedotmack/src/sdk
 const PLUGIN_DIR = join(HOME, '.claude/plugins/marketplaces/thedotmack');
 const LOG_DIR = join(HOME, '.claude-mem/japanese-patch/logs');
 const LOG_FILE = join(LOG_DIR, `patch-${new Date().toISOString().split('T')[0]}.log`);
-const PATCH_APPLIED_MARKER = join(HOME, '.claude-mem/japanese-patch/.patch-applied');
 
 // ログ関数
 function log(message) {
@@ -207,36 +207,22 @@ async function main() {
 
     log('===== claude-mem 日本語化パッチ適用完了 =====');
 
-    // 初回パッチ適用のマーカーファイルを作成
-    const isFirstTimeApply = !existsSync(PATCH_APPLIED_MARKER);
-    if (isFirstTimeApply) {
-      try {
-        writeFileSync(PATCH_APPLIED_MARKER, new Date().toISOString(), 'utf-8');
-      } catch (e) {
-        // マーカー作成失敗は無視
-      }
-    }
-
-    // 初回適用時は目立つ形で再起動案内を表示
-    if (isFirstTimeApply) {
-      console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('');
-      console.log('  ✅ claude-mem 日本語化パッチを適用しました');
-      console.log('');
-      console.log('  【重要】日本語化を完全に有効にするには Claude Code を再起動してください。');
-      console.log('');
-      console.log('  現在のセッションでは、既に起動済みのMCPサーバーが');
-      console.log('  古いコードを使用している可能性があります。');
-      console.log('');
-      console.log('  再起動後、claude-memの記録は日本語で保存されます。');
-      console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('');
-      log('初回パッチ適用: ユーザーに再起動を案内');
-    } else {
-      console.log('claude-mem 日本語化パッチを再適用しました');
-    }
+    // パッチ適用時は常に再起動案内を表示（初回・再適用問わず再起動が必要なため）
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    console.log('  ✅ claude-mem 日本語化パッチを適用しました');
+    console.log('');
+    console.log('  【重要】日本語化を完全に有効にするには Claude Code を再起動してください。');
+    console.log('');
+    console.log('  現在のセッションでは、既に起動済みのMCPサーバーが');
+    console.log('  古いコードを使用している可能性があります。');
+    console.log('');
+    console.log('  再起動後、claude-memの記録は日本語で保存されます。');
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    log('パッチ適用完了: ユーザーに再起動を案内');
 
   } catch (error) {
     log(`エラー: ${error.message}`);
