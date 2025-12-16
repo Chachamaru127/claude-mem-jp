@@ -32,60 +32,6 @@
 
 - [claude-mem](https://github.com/thedotmack/claude-mem) プラグインがインストールされていること
 
-```bash
-/plugin marketplace add thedotmack/claude-mem
-/plugin install claude-mem@thedotmack
-```
-
-## 動作の仕組み
-
-1. SessionStart 時に `prompts.ts` をチェック
-2. `LANGUAGE` セクションがなければパッチを適用
-3. ビルド → マーケットプレース同期 → ワーカー再起動
-
-## トラブルシューティング
-
-### 日本語化が適用されない場合
-
-パッチ適用後も英語で記録される場合は、MCP サーバープロセスが再起動されていない可能性があります。
-
-1. **Claude Code を完全に終了**
-2. **ターミナルで以下を実行**:
-   ```bash
-   pkill -f "mcp-server.cjs"
-   pkill -f "worker-service.cjs"
-   ```
-3. **Claude Code を再起動**
-
-### パッチ適用状況の確認
-
-```bash
-# パッチが適用されているか確認
-grep -n "LANGUAGE\|Japanese" ~/.claude/plugins/marketplaces/thedotmack/src/sdk/prompts.ts
-
-# 動作中プロセスの確認
-ps aux | grep -E "(worker-service|mcp-server)" | grep -v grep
-
-# ワーカーログの確認
-cat ~/.claude-mem/logs/worker-$(date +%Y-%m-%d).log | tail -20
-```
-
-## ログ
-
-ログは以下に保存されます：
-
-```
-~/.claude-mem/japanese-patch/logs/patch-YYYY-MM-DD.log
-```
-
-## バックアップ
-
-パッチ適用前のファイルは自動的にバックアップされます：
-
-```
-~/.claude-mem/japanese-patch/backups/
-```
-
 ## ライセンス
 
 MIT License - 詳細は [LICENSE](./LICENSE) を参照してください。
@@ -103,3 +49,4 @@ MIT License - 詳細は [LICENSE](./LICENSE) を参照してください。
 
 - [claude-mem-japanese-marketplace](./claude-mem-japanese-marketplace/) - プラグイン本体
 - [GitHub リポジトリ](https://github.com/Chachamaru127/claude-mem-jp)
+
