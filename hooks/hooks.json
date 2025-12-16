@@ -1,0 +1,17 @@
+{
+  "description": "claude-mem 日本語化パッチャー - SessionStart時に自動で日本語化を適用",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/check-and-patch.js",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

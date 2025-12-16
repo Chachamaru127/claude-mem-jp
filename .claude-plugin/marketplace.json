@@ -1,0 +1,29 @@
+{
+  "name": "claude-mem-jp",
+  "metadata": {
+    "description": "claude-mem プラグインを日本語化するマーケットプレース",
+    "homepage": "https://github.com/Chachamaru127/claude-mem-jp"
+  },
+  "owner": {
+    "name": "Chachamaru127"
+  },
+  "plugins": [
+    {
+      "name": "claude-mem-japanese",
+      "source": "./",
+      "description": "claude-mem プラグインの出力を自動的に日本語化。アップデート時も自動で再適用。",
+      "author": {
+        "name": "Tachibana Shuuta"
+      },
+      "license": "MIT",
+      "keywords": [
+        "claude-code",
+        "claude-mem",
+        "japanese",
+        "i18n",
+        "localization"
+      ],
+      "category": "localization"
+    }
+  ]
+}
