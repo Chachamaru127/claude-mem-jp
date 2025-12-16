@@ -1,3 +1,6 @@
+# Dependencies
+node_modules/
+
 # OS files
 .DS_Store
 Thumbs.db
@@ -28,4 +31,3 @@ logs/
 *-setup.md
 *-feedback-report.md
 やりたいこと.md
-

@@ -1,0 +1,19 @@
+{
+  "name": "claude-mem-japanese",
+  "version": "1.0.0",
+  "description": "claude-mem プラグインの出力を自動的に日本語化するパッチャー",
+  "author": "Tachibana Shuuta",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "claude-code",
+    "claude-mem",
+    "japanese",
+    "i18n",
+    "localization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Chachamaru127/claude-mem-jp"
+  }
+}
