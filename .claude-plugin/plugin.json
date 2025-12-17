@@ -1,7 +1,7 @@
 {
   "name": "claude-mem-japanese",
   "description": "claude-mem プラグインの出力を自動的に日本語化するパッチャー",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Tachibana Shuuta",
     "url": "https://github.com/Chachamaru127"

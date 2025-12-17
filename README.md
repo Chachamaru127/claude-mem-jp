@@ -1,5 +1,8 @@
 # claude-mem-jp
 
+[![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://github.com/Chachamaru127/claude-mem-jp)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+
 [claude-mem](https://github.com/thedotmack/claude-mem) プラグインの出力を自動的に日本語化する Claude Code プラグインです。
 
 ## 機能
@@ -7,6 +10,7 @@
 - Claude Code セッション開始時に自動で日本語化パッチを適用
 - claude-mem がアップデートされても自動的に再適用
 - バックアップ自動作成で安全に適用
+- 依存関係の自動補完（v1.2.0+）
 
 ## 前提条件
 
@@ -35,7 +39,7 @@ MCPサーバープロセスが古いコードを使用しているため、再�
 
 **方法2**: MCPサーバープロセスを停止
 ```bash
-pkill -f "claude-mem"
+pkill -f "thedotmack.*mcp-server"
 ```
 
 再起動後、次のセッションから claude-mem の記録が日本語で保存されます。
@@ -45,10 +49,10 @@ pkill -f "claude-mem"
 パッチの適用状況は以下のコマンドで確認できます：
 
 ```bash
-cat ~/.claude/plugins/marketplaces/thedotmack/claude-mem/src/prompts.ts | grep -A2 "session_start_prompt"
+grep "LANGUAGE" ~/.claude/plugins/marketplaces/thedotmack/src/sdk/prompts.ts
 ```
 
-「日本語で記述してください」という文字列が含まれていれば、パッチは正常に適用されています。
+「LANGUAGE」と「Japanese」が含まれていれば、パッチは正常に適用されています。
 
 ## トラブルシューティング
 
@@ -56,12 +60,21 @@ cat ~/.claude/plugins/marketplaces/thedotmack/claude-mem/src/prompts.ts | grep -
 
 1. claude-mem プラグインが先にインストールされているか確認
 2. Claude Code を完全に再起動
-3. `pkill -f "claude-mem"` でMCPサーバーを停止してから再度起動
+3. `pkill -f "thedotmack.*mcp-server"` でMCPサーバーを停止してから再度起動
+
+### ビルドエラーが発生する場合
+
+v1.2.0 以降は自動的に依存関係を補完するため、通常は発生しません。
+手動で修正する場合：
+
+```bash
+cd ~/.claude/plugins/marketplaces/thedotmack && npm install
+```
 
 ### パッチ適用ログの確認
 
 ```bash
-cat ~/.claude-mem-japanese/patch.log
+cat ~/.claude-mem/japanese-patch/logs/patch-$(date +%Y-%m-%d).log
 ```
 
 ## リポジトリ構造
@@ -69,7 +82,6 @@ cat ~/.claude-mem-japanese/patch.log
 ```
 claude-mem-jp/
 ├── .claude-plugin/
-│   ├── marketplace.json    # マーケットプレース定義
 │   └── plugin.json         # プラグイン定義
 ├── hooks/
 │   └── hooks.json          # SessionStart フック
@@ -79,6 +91,23 @@ claude-mem-jp/
 ├── package.json
 └── LICENSE
 ```
+
+## 更新履歴
+
+### v1.2.1 (2024-12-17)
+- README.md を更新
+- ドキュメントの改善
+
+### v1.2.0 (2024-12-17)
+- ビルド前に `npm install` を自動実行するように修正
+- claude-mem アップデート後の esbuild モジュール解決エラーを修正
+
+### v1.1.0
+- 初回パッチ適用時の Claude Code 再起動案内を追加
+- MCP サーバープロセスの停止処理を追加
+
+### v1.0.0
+- 初回リリース
 
 ## ライセンス
 
