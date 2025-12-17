@@ -135,6 +135,22 @@ async function main() {
     writeFileSync(PROMPTS_FILE, patchedContent, 'utf-8');
     log('パッチ適用完了');
 
+    // 依存関係のインストール（アップデート後にnode_modulesが不完全な場合の対策）
+    log('依存関係を確認中...');
+    try {
+      const installResult = runCommand('npm', ['install'], {
+        cwd: PLUGIN_DIR,
+        timeout: 120000
+      });
+      if (installResult.status !== 0) {
+        log(`依存関係インストール警告: ${installResult.stderr}（続行）`);
+      } else {
+        log('依存関係の確認完了');
+      }
+    } catch (e) {
+      log(`依存関係インストール警告: ${e.message}（続行）`);
+    }
+
     // ビルド実行
     log('ビルド開始...');
     try {

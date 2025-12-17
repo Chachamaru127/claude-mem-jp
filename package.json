@@ -1,6 +1,6 @@
 {
   "name": "claude-mem-japanese",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "claude-mem プラグインの出力を自動的に日本語化するパッチャー",
   "author": "Tachibana Shuuta",
   "license": "MIT",
